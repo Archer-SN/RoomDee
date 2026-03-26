@@ -41,6 +41,23 @@ A property booking marketplace (similar to Traveloka/Airbnb) for Thailand. Guest
 
 ---
 
+### Lucide React — Icons
+
+**What it is:** An open-source icon library with 1,500+ clean, consistent stroke-style icons. It's a well-maintained fork of Feather Icons with significantly more icons.
+
+**Why we chose it:**
+- **Tree-shakeable:** Only the icons you import end up in the bundle — no wasted kilobytes.
+- **React-native components:** Each icon is a proper React component with TypeScript types.
+- **Tailwind-friendly:** Size and color controlled via `className` (e.g., `<Wifi className="h-5 w-5 text-blue-500" />`).
+- **Covers our needs:** Has icons for all property amenities (wifi, pool, parking, kitchen, AC, gym, etc.), navigation, actions, and UI chrome.
+
+**Alternatives considered:**
+- Heroicons — excellent quality but only ~300 icons, not enough for amenity coverage
+- React Icons — bundles multiple icon sets but larger bundle size and inconsistent styling across sets
+- Phosphor Icons — good library but smaller community and ecosystem
+
+---
+
 ### TanStack Query (React Query) — Client-Side Data Management
 
 **What it is:** A library for fetching, caching, and synchronizing server data on the client side.
