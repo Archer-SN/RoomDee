@@ -209,7 +209,7 @@ hotel-booking/
 │   │   │   ├── supabase/
 │   │   │   │   ├── server.ts
 │   │   │   │   ├── client.ts
-│   │   │   │   └── middleware.ts
+│   │   │   │   └── proxy.ts
 │   │   │   ├── redis.ts
 │   │   │   ├── cloudinary.ts
 │   │   │   ├── resend.ts
@@ -233,7 +233,7 @@ hotel-booking/
 │   ├── th.json
 │   └── en.json
 ├── drizzle.config.ts
-├── middleware.ts
+├── proxy.ts                         # Next.js 16 proxy (renamed from middleware.ts)
 ├── next.config.ts
 ├── tailwind.config.ts
 ├── vercel.json
