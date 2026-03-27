@@ -1,6 +1,4 @@
-# Hotel Booking Platform — ER Diagram
 
-```mermaid
 erDiagram
     users {
         UUID id PK
@@ -62,7 +60,7 @@ erDiagram
     property_photos {
         UUID id PK
         UUID property_id FK
-        TEXT cloudinary_id
+        TEXT storage_path
         TEXT url
         TEXT thumbnail_url
         INT sort_order
@@ -111,7 +109,7 @@ erDiagram
     room_type_photos {
         UUID id PK
         UUID room_type_id FK
-        TEXT cloudinary_id
+        TEXT storage_path
         TEXT url
         TEXT thumbnail_url
         INT sort_order
@@ -156,11 +154,31 @@ erDiagram
         TEXT source
     }
 
+    promotions {
+        UUID id PK
+        TEXT code "unique"
+        TEXT discount_type "percentage | fixed_amount"
+        DECIMAL discount_value
+        TEXT sponsor
+        JSONB conditions "min_nights, min_amount, applicable_types, etc."
+        TIMESTAMPTZ valid_from
+        TIMESTAMPTZ valid_until
+        INT max_uses "null = unlimited"
+        INT used_count
+        UUID property_id FK "null = platform-wide"
+        BOOLEAN is_active
+        UUID created_by FK
+        TIMESTAMPTZ created_at
+        TIMESTAMPTZ updated_at
+    }
+
     bookings {
         UUID id PK
         UUID property_id FK
         UUID room_type_id FK
         UUID guest_id FK
+        UUID promotion_id FK "null = no promo"
+        JSONB applied_promotion "snapshot of promo terms at booking time"
         DATE check_in
         DATE check_out
         INT guests_count
@@ -170,6 +188,7 @@ erDiagram
         TEXT cancellation_policy
         TEXT payment_policy
         DECIMAL total_amount
+        DECIMAL discount_amount
         DECIMAL deposit_amount
         TEXT currency
         TEXT special_requests
@@ -219,6 +238,40 @@ erDiagram
         TIMESTAMPTZ created_at
     }
 
+    reviews {
+        UUID id PK
+        UUID booking_id FK "unique - one review per booking"
+        UUID reviewer_id FK
+        UUID property_id FK
+        INT rating "1-5"
+        TEXT comment
+        TEXT host_reply
+        TIMESTAMPTZ host_replied_at
+        BOOLEAN is_visible "admin moderation flag"
+        TIMESTAMPTZ created_at
+        TIMESTAMPTZ updated_at
+    }
+
+    conversations {
+        UUID id PK
+        UUID property_id FK
+        UUID guest_id FK
+        UUID host_id FK
+        UUID booking_id FK "null = pre-booking inquiry"
+        TIMESTAMPTZ last_message_at
+        TIMESTAMPTZ created_at
+    }
+
+    messages {
+        UUID id PK
+        UUID conversation_id FK
+        UUID sender_id FK
+        TEXT message_body
+        TEXT message_type "text | image | system"
+        TIMESTAMPTZ read_at "null = unread"
+        TIMESTAMPTZ sent_at
+    }
+
     audit_log {
         UUID id PK
         TEXT entity_type
@@ -255,6 +308,11 @@ erDiagram
     room_types ||--o{ seasonal_pricing : "has"
     room_types ||--o{ availability : "tracks"
 
+    %% Promotions
+    promotions ||--o{ bookings : "applied to"
+    properties ||--o{ promotions : "has"
+    users ||--o{ promotions : "creates"
+
     %% Booking relationships
     users ||--o{ bookings : "makes"
     properties ||--o{ bookings : "receives"
@@ -267,6 +325,18 @@ erDiagram
     transactions ||--o{ payment_schedule : "fulfils"
     host_profiles ||--o{ payouts : "receives"
 
+    %% Reviews
+    bookings ||--o| reviews : "results in 1 review"
+    users ||--o{ reviews : "writes"
+    properties ||--o{ reviews : "receives"
+
+    %% Messaging
+    properties ||--o{ conversations : "has"
+    users ||--o{ conversations : "guest in"
+    users ||--o{ conversations : "host in"
+    bookings ||--o| conversations : "linked to"
+    conversations ||--o{ messages : "contains"
+    users ||--o{ messages : "sends"
+
     %% Audit
     users ||--o{ audit_log : "performs"
-```

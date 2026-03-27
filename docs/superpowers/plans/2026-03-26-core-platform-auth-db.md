@@ -125,10 +125,8 @@ DATABASE_URL=
 UPSTASH_REDIS_REST_URL=
 UPSTASH_REDIS_REST_TOKEN=
 
-# Cloudinary
-NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=
-CLOUDINARY_API_KEY=
-CLOUDINARY_API_SECRET=
+# Supabase Storage
+SUPABASE_STORAGE_BUCKET=property-photos
 
 # Payments
 OPN_SECRET_KEY=
@@ -226,8 +224,6 @@ const serverEnvSchema = z.object({
   SUPABASE_SERVICE_ROLE_KEY: z.string().min(1),
   UPSTASH_REDIS_REST_URL: z.string().url(),
   UPSTASH_REDIS_REST_TOKEN: z.string().min(1),
-  CLOUDINARY_API_KEY: z.string().min(1),
-  CLOUDINARY_API_SECRET: z.string().min(1),
   OPN_SECRET_KEY: z.string().min(1),
   STRIPE_SECRET_KEY: z.string().min(1),
   STRIPE_WEBHOOK_SECRET: z.string().min(1),
@@ -250,7 +246,6 @@ import { z } from "zod";
 const clientEnvSchema = z.object({
   NEXT_PUBLIC_SUPABASE_URL: z.string().url(),
   NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().min(1),
-  NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: z.string().min(1),
   NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: z.string().min(1),
   NEXT_PUBLIC_TURNSTILE_SITE_KEY: z.string().min(1),
 });
@@ -258,7 +253,6 @@ const clientEnvSchema = z.object({
 export const clientEnv = clientEnvSchema.parse({
   NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
   NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-  NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
   NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
   NEXT_PUBLIC_TURNSTILE_SITE_KEY: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY,
 });
@@ -462,7 +456,7 @@ export const propertyTranslations = pgTable("property_translations", {
 export const propertyPhotos = pgTable("property_photos", {
   id: uuid("id").primaryKey().defaultRandom(),
   propertyId: uuid("property_id").notNull().references(() => properties.id, { onDelete: "cascade" }),
-  cloudinaryId: text("cloudinary_id").notNull(),
+  storagePath: text("storage_path").notNull(), // Supabase Storage path, e.g. "properties/{id}/photo.webp"
   url: text("url").notNull(),
   thumbnailUrl: text("thumbnail_url").notNull(),
   sortOrder: integer("sort_order").notNull().default(0),
@@ -546,7 +540,7 @@ export const roomTypeTranslations = pgTable("room_type_translations", {
 export const roomTypePhotos = pgTable("room_type_photos", {
   id: uuid("id").primaryKey().defaultRandom(),
   roomTypeId: uuid("room_type_id").notNull().references(() => roomTypes.id, { onDelete: "cascade" }),
-  cloudinaryId: text("cloudinary_id").notNull(),
+  storagePath: text("storage_path").notNull(), // Supabase Storage path, e.g. "room-types/{id}/photo.webp"
   url: text("url").notNull(),
   thumbnailUrl: text("thumbnail_url").notNull(),
   sortOrder: integer("sort_order").notNull().default(0),

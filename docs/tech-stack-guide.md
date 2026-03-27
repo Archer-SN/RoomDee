@@ -81,7 +81,7 @@ A property booking marketplace (similar to Traveloka/Airbnb) for Thailand. Guest
 - **PostGIS extension:** Built-in geo-spatial support. We can query "find all properties within 5km of this point" or "find all properties inside this map viewport" directly in SQL. Essential for our map-based search.
 - **Row Level Security (RLS):** Database-level access control. Even if our application code has a bug, a host can never see another host's financial data because the database itself enforces the rules.
 - **Supabase Auth:** Handles user signup/login, Google OAuth, password resets, and session management. No need to build auth from scratch.
-- **Supabase Storage:** For storing property photos (backup — primary storage is Cloudinary).
+- **Supabase Storage:** For storing property photos (primary storage).
 - **Supabase Realtime:** For future features like live messaging between guests and hosts.
 
 **Why not Firebase/MongoDB?** Our data is highly relational (properties have room types, room types have pricing, bookings link guests to room types, transactions link to bookings). This is exactly what relational databases excel at. Document databases would require denormalization and make queries much more complex.
@@ -132,18 +132,22 @@ A property booking marketplace (similar to Traveloka/Airbnb) for Thailand. Guest
 
 ---
 
-### Cloudinary — Image Management
+### Supabase Storage — Image Management
 
-**What it is:** A cloud-based image storage and optimization service.
+**What it is:** S3-compatible file storage bundled with Supabase. Used for storing all property photos.
 
-**Why we chose it over simple file storage:**
-- **Auto-format:** Serves WebP to Chrome, AVIF to Safari — smaller files, faster loads.
-- **On-the-fly resizing:** One uploaded photo becomes: thumbnail (400x300), detail view (800x600), full size (1200px). No need to generate these ourselves.
-- **Smart cropping:** Automatically detects the subject in a photo and crops intelligently for thumbnails.
-- **Built-in CDN:** Photos load fast regardless of where the guest is located.
-- **Performance matters:** Property photos are the heaviest assets on a booking site. Unoptimized images = slow page loads = lost bookings.
+**Why we chose it (for now):**
+- **Zero additional cost:** Included in the Supabase plan — no separate service to manage or pay for.
+- **Good enough for launch:** Combined with `next/image`, we get WebP conversion and basic resizing out of the box.
+- **Built-in CDN:** Supabase Storage serves assets via CDN, so photos load reasonably fast globally.
+- **Simple integration:** Uses the same Supabase client already in the codebase.
 
-**Why not Supabase Storage?** Supabase Storage is just S3-compatible file storage. We'd need to build our own image processing pipeline (resizing, format conversion, CDN). Cloudinary handles all of this automatically.
+**Current limitations vs Cloudinary:**
+- No smart cropping — hosts manually frame photos on upload
+- No AVIF format — WebP only (still a significant improvement over JPEG)
+- Fixed sizes generated at upload time (thumbnail, detail, full) rather than on-the-fly
+
+**Upgrade path:** When image performance becomes a bottleneck (high traffic, host complaints about photo quality), swap to **Bunny.net** (storage + Bunny Optimizer, ~$10–15/month) or **Cloudinary**. The storage abstraction layer makes this a configuration change, not a rewrite.
 
 ---
 

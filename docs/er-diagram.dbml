@@ -183,6 +183,26 @@ Table availability {
   }
 }
 
+// ─── Promotions ──────────────────────────────────────────────────
+
+Table promotions {
+  id uuid [pk]
+  code text [unique, not null]
+  discount_type text [not null, note: 'percentage | fixed_amount']
+  discount_value decimal [not null]
+  sponsor text
+  conditions jsonb [note: 'min_nights, min_amount, applicable_types, etc.']
+  valid_from timestamptz [not null, default: `now()`]
+  valid_until timestamptz
+  max_uses int [note: 'null = unlimited']
+  used_count int [not null, default: 0]
+  property_id uuid [ref: > properties.id, note: 'null = platform-wide']
+  is_active boolean [not null, default: true]
+  created_by uuid [ref: > users.id]
+  created_at timestamptz [not null, default: `now()`]
+  updated_at timestamptz [not null, default: `now()`]
+}
+
 // ─── Bookings ────────────────────────────────────────────────────
 
 Table bookings {
@@ -190,6 +210,8 @@ Table bookings {
   property_id uuid [not null, ref: > properties.id]
   room_type_id uuid [not null, ref: > room_types.id]
   guest_id uuid [not null, ref: > users.id]
+  promotion_id uuid [ref: > promotions.id, note: 'null = no promo']
+  applied_promotion jsonb [note: 'snapshot of promo terms at booking time']
   check_in date [not null]
   check_out date [not null]
   guests_count int [not null]
@@ -199,6 +221,7 @@ Table bookings {
   cancellation_policy text [not null, note: 'snapshot at booking time']
   payment_policy text [not null, note: 'snapshot at booking time']
   total_amount decimal [not null]
+  discount_amount decimal [not null, default: 0.00]
   deposit_amount decimal
   currency text [not null, note: 'THB | USD']
   special_requests text
@@ -252,6 +275,48 @@ Table payouts {
   hold_until timestamptz
   processed_at timestamptz
   created_at timestamptz [not null, default: `now()`]
+}
+
+// ─── Reviews ─────────────────────────────────────────────────────
+
+Table reviews {
+  id uuid [pk]
+  booking_id uuid [unique, not null, ref: - bookings.id, note: 'one review per booking']
+  reviewer_id uuid [not null, ref: > users.id]
+  property_id uuid [not null, ref: > properties.id]
+  rating int [not null, note: '1–5']
+  comment text
+  host_reply text
+  host_replied_at timestamptz
+  is_visible boolean [not null, default: true, note: 'admin moderation flag']
+  created_at timestamptz [not null, default: `now()`]
+  updated_at timestamptz
+}
+
+// ─── Messaging ───────────────────────────────────────────────────
+
+Table conversations {
+  id uuid [pk]
+  property_id uuid [not null, ref: > properties.id]
+  guest_id uuid [not null, ref: > users.id]
+  host_id uuid [not null, ref: > users.id]
+  booking_id uuid [ref: > bookings.id, note: 'null = pre-booking inquiry']
+  last_message_at timestamptz
+  created_at timestamptz [not null, default: `now()`]
+
+  indexes {
+    (property_id, guest_id, host_id) [unique]
+  }
+}
+
+Table messages {
+  id uuid [pk]
+  conversation_id uuid [not null, ref: > conversations.id]
+  sender_id uuid [not null, ref: > users.id]
+  message_body text [not null]
+  message_type text [not null, default: 'text', note: 'text | image | system']
+  read_at timestamptz [note: 'null = unread']
+  sent_at timestamptz [not null, default: `now()`]
 }
 
 // ─── Audit ───────────────────────────────────────────────────────
