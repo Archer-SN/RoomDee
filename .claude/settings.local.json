@@ -16,7 +16,12 @@
       "Bash('/c/Program Files/nodejs/node' '/c/Program Files/nodejs/node_modules/pnpm/bin/pnpm.cjs' add @supabase/supabase-js @supabase/ssr drizzle-orm postgres zod)",
       "Read(//c//**)",
       "Read(//c/Users/super/**)",
-      "Bash(node:*)"
+      "Bash(node:*)",
+      "Bash(pnpm build:*)",
+      "Bash(npx next:*)",
+      "Bash(mkdir -p \"C:/Users/super/.config/superpowers/worktrees/startupProject/feat-sub-project-1/app/[locale]/\\(admin\\)/admin/dashboard\")",
+      "Bash(mv \"C:/Users/super/.config/superpowers/worktrees/startupProject/feat-sub-project-1/app/[locale]/\\(admin\\)/dashboard/page.tsx\" \"C:/Users/super/.config/superpowers/worktrees/startupProject/feat-sub-project-1/app/[locale]/\\(admin\\)/admin/dashboard/page.tsx\")",
+      "Bash(rm -rf \"C:/Users/super/.config/superpowers/worktrees/startupProject/feat-sub-project-1/app/[locale]/\\(admin\\)/dashboard\")"
     ]
   }
 }
