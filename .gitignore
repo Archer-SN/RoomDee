@@ -34,6 +34,10 @@ yarn-error.log*
 .env*
 !.env.example
 
+# lock files from other package managers
+package-lock.json
+yarn.lock
+
 # vercel
 .vercel
 
