@@ -24,6 +24,7 @@ export const properties = pgTable("properties", {
   cancellationPolicy: text("cancellation_policy", { enum: CANCELLATION_POLICIES })
     .notNull()
     .default("moderate"),
+  channexPropertyId: text("channex_property_id"),
   petFriendly: boolean("pet_friendly").notNull().default(false),
   // PostGIS location stored as text — we use raw SQL for geo queries
   // Actual column type: GEOGRAPHY(POINT, 4326) — created via migration SQL

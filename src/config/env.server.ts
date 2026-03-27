@@ -17,6 +17,7 @@ const serverEnvSchema = z.object({
   STRIPE_WEBHOOK_SECRET: z.string().min(1).optional(),
   RESEND_API_KEY: z.string().min(1).optional(),
   TURNSTILE_SECRET_KEY: z.string().min(1).optional(),
+  CHANNEX_API_KEY: z.string().min(1).optional(),
 });
 
 export const serverEnv = serverEnvSchema.parse(process.env);

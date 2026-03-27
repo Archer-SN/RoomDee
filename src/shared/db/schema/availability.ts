@@ -11,7 +11,7 @@ export const availability = pgTable("availability", {
   status: text("status", { enum: ["available", "blocked"] })
     .notNull()
     .default("available"),
-  source: text("source", { enum: ["platform"] })
+  source: text("source", { enum: ["platform", "channex"] })
     .notNull()
     .default("platform"),
   // UNIQUE(room_type_id, date) added via migration SQL
