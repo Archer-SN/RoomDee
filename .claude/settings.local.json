@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(mkdir -p ~/.config/superpowers/worktrees/startupProject)",
+      "Bash(git worktree:*)",
+      "Bash(echo $HOME)",
+      "Bash(pnpm create:*)",
+      "Bash(pnpm --version)",
+      "Read(//c/Users/super/AppData/Local/pnpm//**)",
+      "Read(//c/Users/super/AppData/Roaming/npm//**)",
+      "Bash(\"/c/Program Files/nodejs/node\" /c/Users/super/AppData/Roaming/npm/node_modules/pnpm/bin/pnpm.cjs --version 2>&1)",
+      "Bash(\"/c/Program Files/nodejs/node\" /c/Users/super/AppData/Roaming/npm/node_modules/pnpm/bin/pnpm.cjs create next-app@latest . --yes --typescript --tailwind --eslint --app --turbopack --import-alias \"@/*\")",
+      "Bash(alias pnpm='/c/Program\\\\ Files/nodejs/node /c/Program\\\\ Files/nodejs/node_modules/pnpm/bin/pnpm.cjs')",
+      "Bash(pnpm add:*)",
+      "Bash('/c/Program Files/nodejs/node' '/c/Program Files/nodejs/node_modules/pnpm/bin/pnpm.cjs' add @supabase/supabase-js @supabase/ssr drizzle-orm postgres zod)",
+      "Read(//c//**)",
+      "Read(//c/Users/super/**)",
+      "Bash(node:*)",
+      "Bash(pnpm build:*)",
+      "Bash(npx next:*)",
+      "Bash(mkdir -p \"C:/Users/super/.config/superpowers/worktrees/startupProject/feat-sub-project-1/app/[locale]/\\(admin\\)/admin/dashboard\")",
+      "Bash(mv \"C:/Users/super/.config/superpowers/worktrees/startupProject/feat-sub-project-1/app/[locale]/\\(admin\\)/dashboard/page.tsx\" \"C:/Users/super/.config/superpowers/worktrees/startupProject/feat-sub-project-1/app/[locale]/\\(admin\\)/admin/dashboard/page.tsx\")",
+      "Bash(rm -rf \"C:/Users/super/.config/superpowers/worktrees/startupProject/feat-sub-project-1/app/[locale]/\\(admin\\)/dashboard\")"
+    ]
+  }
+}
