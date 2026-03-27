@@ -1,0 +1,36 @@
+{
+  "common": {
+    "appName": "StayHub",
+    "search": "ค้นหา",
+    "login": "เข้าสู่ระบบ",
+    "register": "สมัครสมาชิก",
+    "logout": "ออกจากระบบ",
+    "home": "หน้าหลัก",
+    "loading": "กำลังโหลด...",
+    "error": "เกิดข้อผิดพลาด",
+    "notFound": "ไม่พบหน้าที่ค้นหา"
+  },
+  "auth": {
+    "loginTitle": "เข้าสู่ระบบ",
+    "registerTitle": "สร้างบัญชีใหม่",
+    "email": "อีเมล",
+    "password": "รหัสผ่าน",
+    "forgotPassword": "ลืมรหัสผ่าน?",
+    "googleLogin": "เข้าสู่ระบบด้วย Google",
+    "noAccount": "ยังไม่มีบัญชี?",
+    "hasAccount": "มีบัญชีอยู่แล้ว?"
+  },
+  "host": {
+    "dashboard": "แดชบอร์ด",
+    "properties": "ที่พักของฉัน",
+    "bookings": "การจอง",
+    "payouts": "การจ่ายเงิน"
+  },
+  "admin": {
+    "dashboard": "แดชบอร์ดผู้ดูแล",
+    "users": "ผู้ใช้",
+    "properties": "ที่พัก",
+    "bookings": "การจองทั้งหมด",
+    "finance": "การเงิน"
+  }
+}

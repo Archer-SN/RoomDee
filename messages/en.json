@@ -1,0 +1,36 @@
+{
+  "common": {
+    "appName": "StayHub",
+    "search": "Search",
+    "login": "Log in",
+    "register": "Sign up",
+    "logout": "Log out",
+    "home": "Home",
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "notFound": "Page not found"
+  },
+  "auth": {
+    "loginTitle": "Log in to your account",
+    "registerTitle": "Create an account",
+    "email": "Email",
+    "password": "Password",
+    "forgotPassword": "Forgot password?",
+    "googleLogin": "Continue with Google",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?"
+  },
+  "host": {
+    "dashboard": "Dashboard",
+    "properties": "My Properties",
+    "bookings": "Bookings",
+    "payouts": "Payouts"
+  },
+  "admin": {
+    "dashboard": "Admin Dashboard",
+    "users": "Users",
+    "properties": "Properties",
+    "bookings": "All Bookings",
+    "finance": "Finance"
+  }
+}
