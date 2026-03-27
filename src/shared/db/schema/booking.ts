@@ -1,11 +1,12 @@
 import {
-  pgTable, uuid, text, integer, numeric, date, timestamp, check,
+  pgTable, uuid, text, integer, numeric, date, timestamp, check, jsonb,
 } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
 import { properties } from "./property";
 import { roomTypes } from "./room-type";
 import { users } from "./user";
 import { transactions } from "./payment";
+import { promotions } from "./promotion";
 import {
   BOOKING_STATUSES, BOOKING_MODES, CANCELLATION_POLICIES,
   PAYMENT_POLICIES, CURRENCIES,
@@ -16,6 +17,8 @@ export const bookings = pgTable("bookings", {
   propertyId: uuid("property_id").notNull().references(() => properties.id, { onDelete: "restrict" }),
   roomTypeId: uuid("room_type_id").notNull().references(() => roomTypes.id, { onDelete: "restrict" }),
   guestId: uuid("guest_id").notNull().references(() => users.id, { onDelete: "restrict" }),
+  promotionId: uuid("promotion_id").references(() => promotions.id, { onDelete: "set null" }), // null = no promo
+  appliedPromotion: jsonb("applied_promotion"), // snapshot of promo terms at booking time
   checkIn: date("check_in").notNull(),
   checkOut: date("check_out").notNull(),
   guestsCount: integer("guests_count").notNull(),
