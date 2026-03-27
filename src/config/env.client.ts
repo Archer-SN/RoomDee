@@ -1,11 +1,14 @@
 import { z } from "zod";
 
 const clientEnvSchema = z.object({
+  // --- Required: app won't start without these ---
   NEXT_PUBLIC_SUPABASE_URL: z.string().url(),
   NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().min(1),
-  NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: z.string().min(1),
-  NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: z.string().min(1),
-  NEXT_PUBLIC_TURNSTILE_SITE_KEY: z.string().min(1),
+
+  // --- Optional in development: only needed when using the feature ---
+  NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: z.string().min(1).optional(),
+  NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: z.string().min(1).optional(),
+  NEXT_PUBLIC_TURNSTILE_SITE_KEY: z.string().min(1).optional(),
 });
 
 export const clientEnv = clientEnvSchema.parse({
